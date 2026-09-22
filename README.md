@@ -2,8 +2,9 @@
 
 A local-first workspace for double coding role-play dialogues. Select complete utterances, create an action, choose one label, and give that occurrence a score from 1 to 3.
 
-**Website:** https://chnln.github.io/Double-Check/  
-**Private source repository:** https://github.com/chnln/Double-Check
+**Website:** https://chnln.github.io/dawn-double-code/
+
+**Private source repository:** https://github.com/chnln/dawn-double-code
 
 The app is self-contained in this directory. It uses a static HTML/CSS/JavaScript frontend and a zero-dependency Python server managed by **uv**. GitHub Pages serves the same frontend without Python.
 
@@ -88,7 +89,7 @@ The repository stays **private**. GitHub Pages must be enabled for private repos
 With `gh` authenticated and Git configured:
 
 ```sh
-uv run scripts/deploy.py --repo chnln/Double-Check
+uv run scripts/deploy.py --repo chnln/dawn-double-code
 ```
 
 This publishes only `index.html`, `app.js`, `core.js`, `styles.css` and `.nojekyll`. It preserves the branch history, does not force-push, and configures Pages to build from `gh-pages`. No source datasets are uploaded. Source code belongs on `main`; run the script after subsequent source updates. GitHub builds can take a minute or two.

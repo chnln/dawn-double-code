@@ -16,7 +16,7 @@ def run(*args, cwd=None, input=None, check=True):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--repo", required=True, help="OWNER/REPO, e.g. chnln/Double-Check")
+    parser.add_argument("--repo", required=True, help="OWNER/REPO, e.g. chnln/dawn-double-code")
     args = parser.parse_args()
     if len(args.repo.split('/')) != 2 or any(not part or not all(c.isalnum() or c in '-_.' for c in part) for part in args.repo.split('/')):
         parser.error("Use a valid OWNER/REPO")

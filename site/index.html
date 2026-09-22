@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#142e35">
+  <meta name="description" content="A precise, local-first workspace for dialogue double coding.">
+  <title>Double Check · Dialogue coding</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23142e35'/%3E%3Cpath d='m5 16 5 5 9-11m-3 9 3 3 9-11' fill='none' stroke='%237de2c6' stroke-width='3'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="./styles.css">
+  <script type="module" src="./app.js"></script>
+</head>
+<body>
+<header class="app-header">
+  <a class="brand" href="./" aria-label="Double Check home"><span class="brand-mark">✓<span>✓</span></span> Double Check <span class="brand-caption">DIALOGUE CODING</span></a>
+  <div class="header-actions"><span id="save-status" class="save-status" role="status">Saved on this device</span><button id="import-button" class="button">↥ Import</button><button id="export-button" class="button primary">↧ Export</button></div>
+</header>
+<main class="workspace">
+  <aside class="sidebar" aria-label="Dialogue library">
+    <div class="sidebar-heading"><span class="eyebrow">WORKSPACE</span><span class="local-badge">LOCAL</span></div>
+    <h1>Dialogues <span id="case-count" class="count">0</span></h1>
+    <div id="case-list" class="case-list"></div>
+    <button id="add-dialogue" class="add-dialogue">＋ Import dialogues</button>
+    <div class="sidebar-footer"><div class="privacy-icon">▣</div><strong>Your data stays here.</strong><p>Saved in this browser.<br>Export a backup to keep a copy.</p><button id="help-button" class="text-button">How to code ↗</button></div>
+  </aside>
+  <section class="dialogue-panel" aria-label="Dialogue annotation">
+    <div class="dialogue-heading"><div><div class="eyebrow">ANNOTATION WORKSPACE</div><h2 id="dialogue-title">Dialogue</h2><p id="dialogue-meta"></p></div><span id="source-badge" class="source-badge">Dialogue</span></div>
+    <div class="workflow"><span class="current"><b>1</b> Select utterances</span><i>—</i><span><b>2</b> Label action</span><i>—</i><span><b>3</b> Score</span></div>
+    <div class="transcript-heading"><span>TRANSCRIPT</span><span>Click anywhere on a row to select</span></div>
+    <div id="transcript" class="transcript"></div>
+    <div class="selection-bar"><div><strong id="selection-count">No utterances selected</strong><span id="selection-hint">Select one turn or an entire exchange.</span></div><button id="clear-selection" class="text-button" disabled>Clear</button><button id="save-action" class="button primary" disabled>Create action <span>↵</span></button></div>
+  </section>
+  <aside class="coding-panel" aria-label="Action coding">
+    <section id="action-editor" class="action-editor"></section>
+    <section class="actions-section">
+      <div class="actions-heading"><h2>Actions <span id="action-count" class="count">0</span></h2><span id="complete-count" class="muted"></span></div>
+      <div class="view-tabs" role="tablist" aria-label="Action view"><button id="sequence-tab" role="tab" aria-selected="true" class="active">Sequence</button><button id="group-tab" role="tab" aria-selected="false">By label</button></div>
+      <div id="actions-list" class="actions-list"></div>
+    </section>
+  </aside>
+</main>
+<div id="toast" class="toast" role="status" hidden></div>
+<dialog id="import-dialog">
+  <div class="dialog-heading"><h2>Import your work</h2><button class="icon-button" data-close="import-dialog" aria-label="Close import">×</button></div>
+  <p>Choose a case folder, a dialogue CSV, or a Double Check backup. Files are read on your device.</p>
+  <div class="import-options"><button id="folder-pick" class="import-option"><strong>▤ Case folders</strong><span>Load dialogue.csv and rater_form.csv together. Multiple cases supported.</span></button><button id="csv-pick" class="import-option"><strong>☷ Dialogue CSV</strong><span>Speaker + Utterance, with or without a first column of utterance numbers.</span></button><button id="backup-pick" class="import-option"><strong>↥ Restore JSON backup</strong><span>Restore dialogue text, labels, scores and selected utterances.</span></button></div>
+  <p class="small-note">Rater forms supply the label set. Existing scores are not imported as new annotations.</p>
+</dialog>
+<dialog id="export-dialog">
+  <div class="dialog-heading"><h2>Export annotations</h2><button class="icon-button" data-close="export-dialog" aria-label="Close export">×</button></div>
+  <p id="export-info"></p>
+  <div class="import-options"><button id="export-json" class="import-option"><strong>JSON · Full workspace backup</strong><span>All cases, original text and annotations. Re-import to continue on another device.</span></button><button id="export-csv" class="import-option"><strong>CSV · Action sequence</strong><span>Current dialogue. One row per action, with utterance numbers, label and score.</span></button><button id="export-summary" class="import-option"><strong>CSV · Grouped by label</strong><span>Current dialogue. All labels with their sequence numbers and occurrence scores.</span></button></div>
+</dialog>
+<dialog id="help-dialog">
+  <div class="dialog-heading"><h2>A consistent coding workflow</h2><button class="icon-button" data-close="help-dialog" aria-label="Close help">×</button></div>
+  <ol class="help-list"><li><strong>Select evidence.</strong> Click one or more complete utterances. Select only User turns, or include Character turns for an exchange. Non-adjacent selections and overlapping actions are allowed.</li><li><strong>Create an action.</strong> Actions are numbered from 1, ordered by their first selected utterance. Actions that start on the same turn keep creation order.</li><li><strong>Choose one label and score.</strong> Each occurrence gets exactly one label and a score from 1 to 3. Use Edit turns to revise evidence.</li><li><strong>Review and export.</strong> Switch to By label to review repeated actions. Export JSON to back up all your work.</li></ol>
+  <p class="small-note">This version scores each occurrence. The original coding instructions instead request one overall score per label; grouped exports do not calculate that overall score. “No occurrences” means no evidence has been annotated yet.</p>
+  <p class="small-note">Enter creates the selected action. Escape clears a selection. Each row also supports Tab + Space. Imported files and annotations stay in this browser; they are not synced to GitHub.</p>
+</dialog>
+<dialog id="label-dialog"><form id="label-form"><div class="dialog-heading"><h2>Add an action label</h2><button type="button" class="icon-button" data-close="label-dialog" aria-label="Close label form">×</button></div><label>Phase<input id="label-phase" required maxlength="120" placeholder="e.g. Phase 2: Building Trust"></label><label>Action name<input id="label-name" required maxlength="160" placeholder="e.g. Acknowledge perspective"></label><label>Explanation<textarea id="label-description" rows="3" maxlength="1000"></textarea></label><button class="button primary" type="submit">Add label</button></form></dialog>
+<input type="file" id="folder-input" webkitdirectory multiple hidden><input type="file" id="csv-input" accept=".csv,text/csv" multiple hidden><input type="file" id="backup-input" accept=".json,application/json" hidden>
+</body>
+</html>

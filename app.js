@@ -47,7 +47,7 @@ function renderSelection() {
   $('clear-selection').disabled = !selected.size && !editingTurns;
   document.querySelectorAll('[data-turn]').forEach(row => { const on = selected.has(Number(row.dataset.turn)); row.classList.toggle('selected', on); row.setAttribute('aria-pressed', String(on)); });
 }
-function labelColor(label) { const phase = Number(label.phase.match(/\d+/)?.[0] || 1); return ['#75a9a1','#c6a76b','#a095bc','#6c99b6','#9ba479'][(phase-1)%5]; }
+function labelColor(label) { const phase = Number(label.phase.match(/\d+/)?.[0] || 1); return ['#ca7998','#d89ba9','#b988b1','#d48caa','#b5788f'][(phase-1)%5]; }
 function renderEditor() {
   const c = current(), a = activeAction(), seq = ordered().find(item => item.id === a?.id)?.sequence;
   if (!a) {
